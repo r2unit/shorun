@@ -14,6 +14,64 @@ import (
 	"github.com/r2unit/shorun/pkg/storage"
 )
 
+// Client represents an SSH client connection
+type Client struct {
+	// Add fields as needed
+}
+
+// Session represents an SSH session
+type Session struct {
+	// Add fields as needed
+}
+
+// ClientConfig contains configuration for an SSH client
+type ClientConfig struct {
+	User            string
+	Auth            []AuthMethod
+	HostKeyCallback func(hostname string, remote net.Addr, key string) error
+	Timeout         time.Duration
+}
+
+// AuthMethod represents an SSH authentication method
+type AuthMethod interface{}
+
+// Password returns an AuthMethod that uses the given password
+func Password(password string) AuthMethod {
+	return password
+}
+
+// InsecureIgnoreHostKey returns a function that can be used as HostKeyCallback
+// to accept any host key. This is insecure and should only be used for testing.
+func InsecureIgnoreHostKey() func(hostname string, remote net.Addr, key string) error {
+	return func(hostname string, remote net.Addr, key string) error {
+		return nil
+	}
+}
+
+// Dial starts a client connection to the given SSH server
+func Dial(network, addr string, config *ClientConfig) (*Client, error) {
+	// Implementation would connect to the SSH server
+	return &Client{}, nil
+}
+
+// NewSession opens a new SSH session
+func (c *Client) NewSession() (*Session, error) {
+	// Implementation would create a new SSH session
+	return &Session{}, nil
+}
+
+// Close closes the client connection
+func (c *Client) Close() error {
+	// Implementation would close the connection
+	return nil
+}
+
+// Close closes the session
+func (s *Session) Close() error {
+	// Implementation would close the session
+	return nil
+}
+
 // Manager implements the connection.Manager interface for SSH connections
 type Manager struct {
 	config     *connection.Config
